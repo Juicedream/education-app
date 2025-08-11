@@ -82,3 +82,18 @@ interface CompanionComponentProps {
   voice: string;
   style: string;
 }
+
+interface CompanionCardProps {
+  id: string,
+  name: string,
+  topic: string,
+  subject: string,
+  duration: number,
+  color: string
+}
+
+interface CompanionsListProps{
+  title: string,
+  companions: Companion[],
+  classNames: String
+}

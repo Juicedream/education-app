@@ -72,4 +72,12 @@ export const recentSessions = [
     duration: 10,
     color: "#C8FFDF",
   },
+  {
+    id: "7",
+    subject: "french",
+    name: "Le Platform Bibliotheque",
+    topic: "The only french tutor library you will need",
+    duration: 10,
+    color: "#2E34AA",
+  },
 ];
