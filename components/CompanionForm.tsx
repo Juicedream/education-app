@@ -17,6 +17,9 @@ import { Button } from "./ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { subjects } from "@/constants";
 import { Textarea } from "./ui/textarea";
+import { createCompanion } from "@/lib/actions/companions.actions";
+import { redirect } from "next/navigation";
+import CompanionsLibrary from "@/app/companions/page";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Companion name is required" }),
@@ -24,26 +27,36 @@ const formSchema = z.object({
   topic: z.string().min(1, { message: "Topic is required" }),
   voice: z.string().min(1, { message: "Voice is required" }),
   style: z.string().min(1, { message: "Style is required" }),
-  duration: z.number().min(1, { message: "Duration is required" }),
+  duration: z.coerce.number().min(1, { message: "Duration is required" }),
 });
 const CompanionForm = () => {
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  type CompanionFormValues = z.infer<typeof formSchema>;
+  const form = useForm<CompanionFormValues>({
+    resolver: zodResolver(formSchema) as any,
     defaultValues: {
       name: "",
       subject: "",
       voice: "",
+      topic: "",
       style: "",
       duration: 15,
     },
   });
 
   // 2. Define a submit handler.
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+
+    const companion = await createCompanion(values);
+    if(companion){
+      redirect(`/companions/${companion.id}`)
+    }else {
+      console.log("Failed to create a companion");
+      redirect("/");
+    }
   };
 
   return (
@@ -189,7 +202,7 @@ const CompanionForm = () => {
             <FormItem>
               <FormLabel>Estimated session duration in minutes</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="15" {...field} className="input" />
+                <Input type="number" placeholder={`${Number(15)}`} {...field} className="input" />
               </FormControl>
             
               <FormMessage />
