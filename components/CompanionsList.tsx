@@ -13,7 +13,7 @@ import Link from "next/link";
 const CompanionsList = ({title, companions, classNames}: CompanionsListProps) => {
   return (
     <article className={cn("companion-list", classNames)}>
-      <h2 className="font-bold text-3xl">Recent Sessions</h2>
+      <h2 className="font-bold text-3xl">{title}</h2>
 
       <Table>
         <TableHeader>
@@ -48,7 +48,7 @@ const CompanionsList = ({title, companions, classNames}: CompanionsListProps) =>
                 </Link>
               </TableCell>
               <TableCell>
-                <div className="subject-bagde w-fit max-md:hidden">
+                <div className="subject-badge w-fit max-md:hidden">
                   {subject}
                 </div>
                 <div

@@ -97,3 +97,7 @@ interface CompanionsListProps{
   companions: Companion[],
   classNames: String
 }
+
+interface CompanionSessionPageProps{
+  params: Promise<{id: String}>
+}
